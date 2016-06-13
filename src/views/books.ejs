@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>My Fav Books</title>
+  <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body>
+
+  <div class="container">
+    <h1>My Favorite Books</h1>
+    <ul>
+      <% books.forEach(function(book) { %>
+        <li> <%= book.title %> by <%= book.author %></li>
+      <% }) %>
+    </ul>
+  </div>
+
+  <script src="/lib/jquery/dist/jquery.js"></script>
+  <script src="/lib/bootstrap/dist/js/bootstrap.js"></script>
+
+</body>
+</html>
