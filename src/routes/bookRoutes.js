@@ -9,11 +9,14 @@ var queries = require('../services/queries.js')
 var router = function (nav) {
   bookRouter.route('/')
     .get(function (req, res) {
+      // select all books
       queries.selectBooks(function (err, records) {
         if (err) { console.log('error: ', err); return; }
 
         res.render(
+          // use books template
           'books',
+          // pass data to template
           {
             nav: nav,
             books: records,
@@ -32,7 +35,9 @@ var router = function (nav) {
 
       function renderMessage(message, type) {
         res.render(
+          // use books template
           'books',
+          // pass data to template
           {
             nav: nav,
             books: [],
@@ -44,10 +49,12 @@ var router = function (nav) {
         );
       }
 
+      // get information from form
       title = req.body.title;
       firstname = req.body.firstname;
       lastname = req.body.lastname;
 
+      // check if all form fields are filled out
       if (title && firstname && lastname) {
         // look for author in database
         queries.selectAuthor(firstname, lastname, function (err, res) {
