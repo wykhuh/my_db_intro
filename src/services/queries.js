@@ -4,6 +4,13 @@ var sqlite3 = require('sqlite3').verbose();
 var db = new sqlite3.Database(file);
 
 function queries() {
+  function selectBooks(cb) {
+    var sql = 'SELECT * FROM authors ' +
+              'JOIN books ON authors.id = books.author_id ' +
+              'ORDER By books.id DESC';
+    db.all(sql, cb);
+  }
+
   function selectAuthor(firstname, lastname, cb) {
     var sql = 'SELECT id FROM authors WHERE firstname=? AND lastname=?';
     db.get(sql, firstname, lastname, cb);
@@ -21,6 +28,7 @@ function queries() {
 
   return {
     selectAuthor: selectAuthor,
+    selectBooks: selectBooks,
     insertBook: insertBook,
     insertAuthor: insertAuthor
   };

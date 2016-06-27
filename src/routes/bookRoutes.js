@@ -6,19 +6,22 @@ var queries = require('../services/queries.js')
 
 // the function is passed in nav;
 // can use passed in nav for every route.
-var router = function(nav) {
+var router = function (nav) {
   bookRouter.route('/')
     .get(function (req, res) {
-      var records = [{ title: 'Cat in the Hat', author: 'Dr. Seuss' }];
-      res.render(
-        'books',
-        {
-          nav: nav,
-          books: records,
-          title: 'Favorite Books',
-          showMessage: false
-        }
-      );
+      queries.selectBooks(function (err, records) {
+        if (err) { console.log('error: ', err); return; }
+
+        res.render(
+          'books',
+          {
+            nav: nav,
+            books: records,
+            title: 'Favorite Books',
+            showMessage: false
+          }
+        );
+      });
     });
 
   bookRouter.route('/add-book')

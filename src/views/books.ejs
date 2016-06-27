@@ -34,7 +34,7 @@
     </div>
     <ul>
       <% books.forEach(function(book) { %>
-        <li> <%= book.title %> by <%= book.author %></li>
+        <li> <%= book.title %> by <%= book.firstname %><%= book.lastname %></li>
       <% }) %>
     </ul>
   </div>
