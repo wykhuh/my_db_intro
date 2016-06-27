@@ -19,7 +19,7 @@ var router = function(nav) {
           nav: nav,
           books: records,
           title: 'Favorite Books',
-          showErrors: false
+          showMessage: false
         }
       );
     });
@@ -30,31 +30,52 @@ var router = function(nav) {
       var firstname;
       var lastname;
       var sql;
-      title = req.body.title;
-      firstname = req.body.firstname;
-      lastname = req.body.lastname;
 
-      if (title && firstname && lastname) {
-        sql = 'INSERT into books(title) VALUES(?)';
-        db.run(sql, title);
-
-        sql = 'INSERT into authors(firstname, lastname) VALUES(?, ?)';
-        db.run(sql, firstname, lastname);
-
-        // redirect to home page
-        res.redirect('/');
-      } else {
-        // show errors if form is incomplete
+      function renderMessage(message, type) {
         res.render(
           'books',
           {
             nav: nav,
             books: [],
             title: 'Favorite Books',
-            showErrors: true,
-            errors: 'All fields must be filled out'
+            showMessage: true,
+            message: message,
+            messageType: type
           }
         );
+      }
+
+      title = req.body.title;
+      firstname = req.body.firstname;
+      lastname = req.body.lastname;
+
+      if (title && firstname && lastname) {
+        // look for author in database
+        sql = 'SELECT id FROM authors WHERE firstname=? AND lastname=?';
+        db.get(sql, firstname, lastname, function(err, res) {
+          if (err) { console.log('error: ', err); return; }
+          // if author exists, insert book
+          if (res) {
+            sql = 'INSERT into books(title, author_id) VALUES(?, ?)';
+            db.run(sql, title, res.id);
+          // if author doesn't exist, insert book and author
+          } else {
+            sql = 'INSERT into authors(firstname, lastname) VALUES(?, ?)';
+            db.run(sql, firstname, lastname, function (err){
+              if (err) {
+                console.log('error: ', err);
+              } else {
+                sql = 'INSERT into books(title, author_id) VALUES(?, ?)';
+                db.run(sql, title, this.lastID);
+              }
+            });
+          }
+        })
+        // redirect to home page
+        res.redirect('/')
+      } else {
+        // show errors if form is incomplete
+        renderMessage('All fields must be filled out', 'danger')
       }
     });
 
