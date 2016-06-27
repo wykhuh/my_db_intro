@@ -1,4 +1,5 @@
 var express = require('express');
+var bodyParser = require('body-parser');
 
 // create an instance of express
 var app = express();
@@ -20,6 +21,10 @@ var adminRouter = require('./src/routes/adminRoutes')(nav);
 // the static 'public' directory.
 app.use(express.static('public'));
 
+// parse request bodies
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
 // tell express where we are storing views
 app.set('views', './src/views');
 
@@ -29,11 +34,7 @@ app.set('view engine', 'ejs');
 // use router so you can list all the http verbs for one route
 // all routes for bookRouter start with '/books'
 app.use('/', bookRouter);
-// all routes for adminRouter start with '/admin'
-app.use('/admin', adminRouter);
 
-
-
-app.listen(port, function(err) {
+app.listen(port, function (err) {
   console.log('running server on port: ' + port);
 });
