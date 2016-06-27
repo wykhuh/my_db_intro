@@ -41,7 +41,7 @@
       <% books.forEach(function(book) { %>
         <tr>
           <td><%= book.title %></td>
-          <td><%= book.firstname %><%= book.lastname %></td>
+          <td><%= book.firstname %> <%= book.lastname %></td>
           <td>
             <a class='btn btn-default' href='/books/edit/<%=book.id %>'>Edit</a>
             <form method="post" action="/books/<%=book.id %>?_method=DELETE" class="form-inline">
