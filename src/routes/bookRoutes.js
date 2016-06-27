@@ -1,25 +1,6 @@
 var express = require('express');
 var bookRouter = express.Router();
-// connect to database
-var file = './db/library.db';
-var sqlite3 = require('sqlite3').verbose();
-var db = new sqlite3.Database(file);
-
-function selectAuthor(firstname, lastname, cb) {
-  var sql = 'SELECT id FROM authors WHERE firstname=? AND lastname=?';
-  db.get(sql, firstname, lastname, cb);
-}
-
-function insertBook(title, authorId, cb) {
-  var sql = 'INSERT into books(title, author_id) VALUES(?, ?)';
-  db.run(sql, title, authorId, cb);
-}
-
-function insertAuthor(firstname, lastname, cb) {
-  var sql = 'INSERT into authors(firstname, lastname) VALUES(?, ?)';
-  db.run(sql, firstname, lastname, cb);
-}
-
+var queries = require('../services/queries.js')
 
 // export a function that returns a router
 
@@ -66,24 +47,24 @@ var router = function(nav) {
 
       if (title && firstname && lastname) {
         // look for author in database
-        selectAuthor(firstname, lastname, function (err, res) {
+        queries.selectAuthor(firstname, lastname, function (err, res) {
           if (err) { console.log('error: ', err); return; }
           // if author exists, insert book
           if (res) {
-            insertBook(title, res.id)
+            queries.insertBook(title, res.id);
           // if author doesn't exist, insert book and author
           } else {
-            insertAuthor(firstname, lastname, function (err){
+            queries.insertAuthor(firstname, lastname, function (err) {
               if (err) { console.log('error: ', err); return; }
-              insertBook(title, this.lastID);
-            })
+              queries.insertBook(title, this.lastID);
+            });
           }
         });
         // redirect to home page
-        res.redirect('/')
+        res.redirect('/');
       } else {
         // show errors if form is incomplete
-        renderMessage('All fields must be filled out', 'danger')
+        renderMessage('All fields must be filled out', 'danger');
       }
     });
 
