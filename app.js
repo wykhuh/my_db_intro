@@ -36,7 +36,12 @@ app.set('view engine', 'ejs');
 
 // use router so you can list all the http verbs for one route
 // all routes for bookRouter start with '/books'
-app.use('/', bookRouter);
+app.use('/books', bookRouter);
+
+// redirect from '/' to '/books'
+app.get('/', function (req, res) {
+  res.redirect('/books');
+});
 
 app.listen(port, function (err) {
   console.log('running server on port: ' + port);

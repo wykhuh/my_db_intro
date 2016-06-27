@@ -11,6 +11,14 @@ function queries() {
     db.all(sql, cb);
   }
 
+  function selectBook(bookId, cb) {
+    var sql = 'SELECT * FROM authors ' +
+              'JOIN books ON authors.id = books.author_id ' +
+              'WHERE books.id =? ' +
+              'ORDER By books.id DESC';
+    db.get(sql, bookId, cb);
+  }
+
   function selectAuthor(firstname, lastname, cb) {
     var sql = 'SELECT id FROM authors WHERE firstname=? AND lastname=?';
     db.get(sql, firstname, lastname, cb);
@@ -29,6 +37,7 @@ function queries() {
   return {
     selectAuthor: selectAuthor,
     selectBooks: selectBooks,
+    selectBook: selectBook,
     insertBook: insertBook,
     insertAuthor: insertAuthor
   };

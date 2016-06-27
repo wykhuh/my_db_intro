@@ -27,6 +27,28 @@ var router = function (nav) {
       });
     });
 
+  bookRouter.route('/edit/:id')
+    .get(function (req, res) {
+      var id = req.params.id;
+
+      // select one book
+      queries.selectBook(id, function (err, record) {
+        if (err) { console.log('error: ', err); return; }
+
+        res.render(
+          // use books template
+          'edit-form',
+          // pass data to template
+          {
+            nav: nav,
+            book: record,
+            title: 'Edit Book',
+            showMessage: false
+          }
+        );
+      });
+    });
+
   bookRouter.route('/add-book')
     .post(function (req, res) {
       var title;
@@ -84,6 +106,9 @@ var router = function (nav) {
     .all(function (req, res, next) {
       var id = req.params.id;
     })
+    .put(function (req, res) {
+
+    });
 
   return bookRouter;
 };
