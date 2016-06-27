@@ -18,7 +18,8 @@ var router = function(nav) {
         {
           nav: nav,
           books: records,
-          title: 'Favorite Books'
+          title: 'Favorite Books',
+          showErrors: false
         }
       );
     });
@@ -33,15 +34,28 @@ var router = function(nav) {
       firstname = req.body.firstname;
       lastname = req.body.lastname;
 
-      sql = 'INSERT into books(title) VALUES(?)';
-      db.run(sql, title);
+      if (title && firstname && lastname) {
+        sql = 'INSERT into books(title) VALUES(?)';
+        db.run(sql, title);
 
-      sql = 'INSERT into authors(firstname, lastname) VALUES(?, ?)';
-      db.run(sql, firstname, lastname);
+        sql = 'INSERT into authors(firstname, lastname) VALUES(?, ?)';
+        db.run(sql, firstname, lastname);
 
-      // redirect to home page
-      res.redirect('/');
-
+        // redirect to home page
+        res.redirect('/');
+      } else {
+        // show errors if form is incomplete
+        res.render(
+          'books',
+          {
+            nav: nav,
+            books: [],
+            title: 'Favorite Books',
+            showErrors: true,
+            errors: 'All fields must be filled out'
+          }
+        );
+      }
     });
 
   bookRouter.route('/:id')
