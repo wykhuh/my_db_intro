@@ -10,9 +10,25 @@
 </head>
 
 <body>
-
   <div class="container">
     <h1>My Favorite Books</h1>
+    <div class="row">
+      <form action="/add-book" method="post" class="col-md-4">
+        <div class="form-group">
+          <label for="title">Title</label>
+          <input id="title" type="text" name="title" class="form-control" placeholder="title">
+        </div>
+        <div class="form-group">
+          <label for="firstname">First Name</label>
+          <input type="text" name="firstname" id="firstname" class="form-control" placeholder="First name">
+        </div>
+        <div class="form-group">
+          <label for="lastname">Last Name</label>
+          <input type="text" name="lastname" id="lastname" class="form-control" placeholder="Last name">
+        </div>
+        <input type="submit" class="btn btn-default">
+      </form>
+    </div>
     <ul>
       <% books.forEach(function(book) { %>
         <li> <%= book.title %> by <%= book.author %></li>
