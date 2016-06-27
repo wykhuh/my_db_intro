@@ -1,5 +1,6 @@
 var express = require('express');
 var bodyParser = require('body-parser');
+var methodOverride = require('method-override');
 
 // create an instance of express
 var app = express();
@@ -24,6 +25,8 @@ app.use(express.static('public'));
 // parse request bodies
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+// allow browser to use PUT and DELETE
+app.use(methodOverride('_method'));
 
 // tell express where we are storing views
 app.set('views', './src/views');

@@ -32,11 +32,25 @@
         <input type="submit" class="btn btn-default">
       </form>
     </div>
-    <ul>
+    <table class='table table-striped table-hover'>
+      <tr>
+        <th>Book</th>
+        <th>Author</th>
+        <th></th>
+      </tr>
       <% books.forEach(function(book) { %>
-        <li> <%= book.title %> by <%= book.firstname %><%= book.lastname %></li>
+        <tr>
+          <td><%= book.title %></td>
+          <td><%= book.firstname %><%= book.lastname %></td>
+          <td>
+            <a class='btn btn-default' href='/edit-book/<%=book.id %>'>Edit</a>
+            <form method="post" action="/books/<%=book.id %>?_method=DELETE" class="form-inline">
+              <button type="submit" class="btn btn-default">Delete</button>
+            </form>
+          </td>
+        </tr>
       <% }) %>
-    </ul>
+    </table>
   </div>
 
   <script src="/lib/jquery/dist/jquery.js"></script>
