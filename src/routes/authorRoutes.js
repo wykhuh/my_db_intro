@@ -4,9 +4,7 @@ var queries = require('../services/queries.js');
 
 // export a function that returns a router
 
-// the function is passed in nav;
-// can use passed in nav for every route.
-var router = function (nav) {
+var router = function () {
   authorRouter.route('/')
     .get(function (req, res) {
       // select all authors
@@ -20,7 +18,6 @@ var router = function (nav) {
           // pass data to template
           {
             flash: false,
-            nav: nav,
             authors: records,
             title: 'Favorite Authors',
             showMessage: false
@@ -44,7 +41,7 @@ var router = function (nav) {
           'authors',
           {
             flash: { type: 'alert-danger', messages: errors },
-            nav: nav,
+
             authors: [],
             title: 'Favorite Authors'
           }
@@ -78,7 +75,6 @@ var router = function (nav) {
           // pass data to template
           {
             flash: false,
-            nav: nav,
             author: record,
             title: 'Edit Author',
             showMessage: false
@@ -113,7 +109,6 @@ var router = function (nav) {
             // pass data to template
             {
               flash: { type: 'alert-danger', messages: errors },
-              nav: nav,
               author: record,
               title: 'Edit Author'
             }

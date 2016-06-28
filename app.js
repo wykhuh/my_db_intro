@@ -8,14 +8,8 @@ var app = express();
 
 var port = process.env.PORT || 5000;
 
-var nav = [
-  {link: '/books', text: 'Books'},
-  {link: '/authors', text: 'Authors'}
-];
-
-// bookRouter, homeRouter are functions that we can pass nav into
-var bookRouter = require('./src/routes/bookRoutes')(nav);
-var authorRouter = require('./src/routes/authorRoutes')(nav);
+var bookRouter = require('./src/routes/bookRoutes')();
+var authorRouter = require('./src/routes/authorRoutes')();
 
 // app.use is middleware that will be done first
 

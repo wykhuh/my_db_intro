@@ -4,9 +4,7 @@ var queries = require('../services/queries.js');
 
 // export a function that returns a router
 
-// the function is passed in nav;
-// can use passed in nav for every route.
-var router = function (nav) {
+var router = function () {
   bookRouter.route('/')
     .get(function (req, res) {
       // select all books
@@ -22,7 +20,6 @@ var router = function (nav) {
             // pass data to template
             {
               flash: false,
-              nav: nav,
               books: books,
               authors: authors,
               title: 'Favorite Books',
@@ -51,7 +48,6 @@ var router = function (nav) {
             'books',
             {
               flash: { type: 'alert-danger', messages: errors },
-              nav: nav,
               books: [],
               authors: authors,
               title: 'Favorite Books'
@@ -90,7 +86,6 @@ var router = function (nav) {
             'edit-book-form',
             // pass data to template
             {
-              nav: nav,
               book: book,
               authors: authors,
               title: 'Edit Book',
@@ -132,7 +127,6 @@ var router = function (nav) {
               // pass data to template
               {
                 flash: { type: 'alert-danger', messages: errors },
-                nav: nav,
                 book: record,
                 authors: authors,
                 title: 'Edit Author'
