@@ -45,8 +45,8 @@ var router = function (nav) {
           {
             flash: { type: 'alert-danger', messages: errors },
             nav: nav,
-            books: [],
-            title: 'Favorite Books'
+            authors: [],
+            title: 'Favorite Authors'
           }
         );
       } else {
@@ -77,6 +77,7 @@ var router = function (nav) {
           'edit-author-form',
           // pass data to template
           {
+            flash: false,
             nav: nav,
             author: record,
             title: 'Edit Author',
@@ -89,14 +90,45 @@ var router = function (nav) {
   authorRouter.route('/:id')
     // edit author
     .put(function (req, res) {
-      var data = {
-        firstname: req.body.firstname,
-        lastname: req.body.lastname,
-        authorId: req.body.id
-      };
-      queries.editAuthor(data);
+      var data;
+      var errors;
 
-      res.redirect('/authors');
+      // form validations
+      req.checkBody('firstname', 'First Name is required').notEmpty();
+      req.checkBody('lastname', 'Last Name is required').notEmpty();
+      errors = req.validationErrors();
+
+      if (errors) {
+        var data = {
+          authorId: req.params.id
+        };
+        // show errors if form is incomplete
+        // select one author
+        queries.selectAuthor(data, function (err, record) {
+          if (err) { console.log('error: ', err); return; }
+
+          res.render(
+            // use authors template
+            'edit-author-form',
+            // pass data to template
+            {
+              flash: { type: 'alert-danger', messages: errors },
+              nav: nav,
+              author: record,
+              title: 'Edit Author'
+            }
+          );
+        });
+      } else {
+        data = {
+          firstname: req.body.firstname,
+          lastname: req.body.lastname,
+          authorId: req.body.id
+        };
+        queries.editAuthor(data);
+
+        res.redirect('/authors');
+      }
     })
     // delete authorId
     .delete(function (req, res) {

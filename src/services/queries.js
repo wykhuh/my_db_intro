@@ -4,14 +4,20 @@ var sqlite3 = require('sqlite3').verbose();
 var db = new sqlite3.Database(file);
 
 function queries() {
+  function selectBooksAuthors(cb) {
+    var sql = 'SELECT * FROM authors ' +
+              'JOIN books ON authors.id = books.author_id ' +
+              'ORDER By books.id DESC';
+    db.all(sql, cb);
+  }
+
   function insertBook(data, cb) {
     var sql = 'INSERT into books(title, author_id) VALUES(?, ?)';
     db.run(sql, data.title, data.authorId, cb);
   }
 
   function selectBooks(cb) {
-    var sql = 'SELECT * FROM authors ' +
-              'JOIN books ON authors.id = books.author_id ' +
+    var sql = 'SELECT * FROM books ' +
               'ORDER By books.id DESC';
     db.all(sql, cb);
   }
@@ -25,11 +31,8 @@ function queries() {
   }
 
   function editBook(data) {
-    var sql = 'UPDATE books set title = ? WHERE id = ?';
-    db.run(sql, data.title, data.bookId);
-
-    sql = 'UPDATE authors set firstname = ?, lastname = ? WHERE id = ?';
-    db.run(sql, data.firstname, data.lastname, data.authorId);
+    var sql = 'UPDATE books set title = ?, author_id = ? WHERE id = ?';
+    db.run(sql, data.title, data.authorId, data.bookId);
   }
 
   function deleteBook(data) {
@@ -65,6 +68,7 @@ function queries() {
 
 
   return {
+    selectBooksAuthors: selectBooksAuthors,
     insertAuthor: insertAuthor,
     selectAuthors: selectAuthors,
     selectAuthor: selectAuthor,

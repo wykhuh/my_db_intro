@@ -14,9 +14,6 @@
     <h1>My Favorite Authors</h1>
     <div class="row">
       <%- include('messages') %>
-      <% if(showMessage) { %>
-      <div class="alert alert-<%= messageType %>"><%= message %></div>
-      <% } %>
       <form action="/authors/" method="post" class="col-md-4">
         <div class="form-group">
           <label for="firstname">First Name</label>

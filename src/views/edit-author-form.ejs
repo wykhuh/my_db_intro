@@ -13,9 +13,8 @@
   <div class="container">
     <h1>Edit Author</h1>
     <div class="row">
-      <% if(showMessage) { %>
-      <div class="alert alert-<%= messageType %>"><%= message %></div>
-      <% } %>
+      <%- include('messages') %>
+      
       <form method="post" action="/authors/<%= author.id %>?_method=PUT" class="col-md-4">
         <div class="form-group">
           <label for="firstname">First Name</label>

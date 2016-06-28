@@ -13,21 +13,20 @@
   <div class="container">
     <h1>Edit Book</h1>
     <div class="row">
-      <% if(showMessage) { %>
-      <div class="alert alert-<%= messageType %>"><%= message %></div>
-      <% } %>
+      <%- include('messages') %>
+
       <form method="post" action="/books/<%= book.id %>?_method=PUT" class="col-md-4">
         <div class="form-group">
           <label for="title">Title</label>
           <input id="title" type="text" name="title" class="form-control" placeholder="title" value="<%= book.title %>">
         </div>
         <div class="form-group">
-          <label for="firstname">First Name</label>
-          <input type="text" name="firstname" id="firstname" class="form-control" placeholder="First name" value="<%= book.firstname %>">
-        </div>
-        <div class="form-group">
-          <label for="lastname">Last Name</label>
-          <input type="text" name="lastname" id="lastname" class="form-control" placeholder="Last name" value="<%= book.lastname %>">
+          <label for="author">Author</label>
+          <select name="authorId" id="author">
+            <% authors.forEach(function(author) { %>
+              <option value="<%= author.id %>"><%= author.firstname %> <%= author.lastname %></option>
+            <% }) %>
+          </select>
         </div>
         <input type="hidden" name="id" value="<%= book.id %>">
         <input type="hidden" name="author_id" value="<%= book.author_id %>">

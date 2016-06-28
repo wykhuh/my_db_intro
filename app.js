@@ -13,9 +13,8 @@ var nav = [
   {link: '/authors', text: 'Authors'}
 ];
 
-// bookRouter, adminRouter are functions that we can pass nav into
+// bookRouter, homeRouter are functions that we can pass nav into
 var bookRouter = require('./src/routes/bookRoutes')(nav);
-var adminRouter = require('./src/routes/adminRoutes')(nav);
 var authorRouter = require('./src/routes/authorRoutes')(nav);
 
 // app.use is middleware that will be done first
