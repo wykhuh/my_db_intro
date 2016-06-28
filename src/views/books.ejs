@@ -45,6 +45,7 @@
           <td>
             <a class='btn btn-default' href='/books/edit/<%=book.id %>'>Edit</a>
             <form method="post" action="/books/<%=book.id %>?_method=DELETE" class="form-inline">
+              <input type="hidden" name="id" value="<%=book.id %>">
               <button type="submit" class="btn btn-default">Delete</button>
             </form>
           </td>

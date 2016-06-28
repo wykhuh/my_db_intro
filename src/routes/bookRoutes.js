@@ -116,6 +116,12 @@ var router = function (nav) {
       queries.editBook(bookId, title, authorId, firstname, lastname);
 
       res.redirect('/');
+    })
+    // delete bookId
+    .delete(function(req, res){
+      var bookId = req.body.id;
+      queries.deleteBook(bookId);
+      res.redirect('/');
     });
 
   return bookRouter;

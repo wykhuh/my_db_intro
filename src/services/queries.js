@@ -19,10 +19,15 @@ function queries() {
     db.get(sql, bookId, cb);
   }
 
+  function deleteBook(bookId) {
+    var sql = 'DELETE FROM books ' +
+              'WHERE books.id =? ';
+    db.run(sql, bookId);
+  }
+
   function editBook(bookId, title, authorId, firstname, lastname) {
     var sql = 'UPDATE books set title = ? WHERE id = ?';
     db.run(sql, title, bookId);
-    console.log(authorId)
 
     sql = 'UPDATE authors set firstname = ?, lastname = ? WHERE id = ?';
     db.run(sql, firstname, lastname, authorId);
@@ -49,7 +54,8 @@ function queries() {
     selectBook: selectBook,
     editBook: editBook,
     insertBook: insertBook,
-    insertAuthor: insertAuthor
+    insertAuthor: insertAuthor,
+    deleteBook: deleteBook
   };
 }
 
