@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>My Fav Authors</title>
+  <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body>
+  <div class="container">
+    <h1>My Favorite Authors</h1>
+    <div class="row">
+      <%- include('messages') %>
+      <% if(showMessage) { %>
+      <div class="alert alert-<%= messageType %>"><%= message %></div>
+      <% } %>
+      <form action="/authors/" method="post" class="col-md-4">
+        <div class="form-group">
+          <label for="firstname">First Name</label>
+          <input type="text" name="firstname" id="firstname" class="form-control" placeholder="First name">
+        </div>
+        <div class="form-group">
+          <label for="lastname">Last Name</label>
+          <input type="text" name="lastname" id="lastname" class="form-control" placeholder="Last name">
+        </div>
+        <input type="submit" class="btn btn-default">
+      </form>
+    </div>
+    <table class='table table-striped table-hover'>
+      <tr>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th></th>
+      </tr>
+      <% authors.forEach(function(author) { %>
+        <tr>
+          <td><%= author.firstname %></td>
+          <td> <%= author.lastname %></td>
+          <td>
+            <a class='btn btn-default' href='/authors/edit/<%=author.id %>'>Edit</a>
+            <form method="post" action="/authors/<%=author.id %>?_method=DELETE" class="form-inline">
+              <input type="hidden" name="id" value="<%=author.id %>">
+              <button type="submit" class="btn btn-default">Delete</button>
+            </form>
+          </td>
+        </tr>
+      <% }) %>
+    </table>
+  </div>
+
+  <script src="/lib/jquery/dist/jquery.js"></script>
+  <script src="/lib/bootstrap/dist/js/bootstrap.js"></script>
+
+</body>
+</html>

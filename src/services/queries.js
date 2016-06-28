@@ -4,6 +4,11 @@ var sqlite3 = require('sqlite3').verbose();
 var db = new sqlite3.Database(file);
 
 function queries() {
+  function insertBook(data, cb) {
+    var sql = 'INSERT into books(title, author_id) VALUES(?, ?)';
+    db.run(sql, data.title, data.authorId, cb);
+  }
+
   function selectBooks(cb) {
     var sql = 'SELECT * FROM authors ' +
               'JOIN books ON authors.id = books.author_id ' +
@@ -19,11 +24,6 @@ function queries() {
     db.get(sql, data.bookId, cb);
   }
 
-  function deleteBook(data) {
-    var sql = 'DELETE FROM books WHERE books.id =? ';
-    db.run(sql, data.bookId);
-  }
-
   function editBook(data) {
     var sql = 'UPDATE books set title = ? WHERE id = ?';
     db.run(sql, data.title, data.bookId);
@@ -32,14 +32,9 @@ function queries() {
     db.run(sql, data.firstname, data.lastname, data.authorId);
   }
 
-  function selectAuthor(data, cb) {
-    var sql = 'SELECT id FROM authors WHERE firstname=? AND lastname=?';
-    db.get(sql, data.firstname, data.lastname, cb);
-  }
-
-  function insertBook(data, cb) {
-    var sql = 'INSERT into books(title, author_id) VALUES(?, ?)';
-    db.run(sql, data.title, data.authorId, cb);
+  function deleteBook(data) {
+    var sql = 'DELETE FROM books WHERE books.id =? ';
+    db.run(sql, data.bookId);
   }
 
   function insertAuthor(data, cb) {
@@ -47,13 +42,38 @@ function queries() {
     db.run(sql, data.firstname, data.lastname, cb);
   }
 
+  function selectAuthors(cb) {
+    var sql = 'SELECT * FROM authors ' +
+              'ORDER By authors.lastname ASC, authors.firstname ASC';
+    db.all(sql, cb);
+  }
+
+  function selectAuthor(data, cb) {
+    var sql = 'SELECT id FROM authors WHERE firstname=? AND lastname=?';
+    db.get(sql, data.firstname, data.lastname, cb);
+  }
+
+  function editAuthor(data) {
+    var sql = 'UPDATE authors set firstname = ?, lastname = ? WHERE id = ?';
+    db.run(sql, data.firstname, data.lastname, data.authorId);
+  }
+
+  function deleteAuthor(data) {
+    var sql = 'DELETE FROM authors WHERE authors.id =? ';
+    db.run(sql, data.authorId);
+  }
+
+
   return {
+    insertAuthor: insertAuthor,
+    selectAuthors: selectAuthors,
     selectAuthor: selectAuthor,
+    editAuthor: editAuthor,
+    deleteAuthor: deleteAuthor,
+    insertBook: insertBook,
     selectBooks: selectBooks,
     selectBook: selectBook,
     editBook: editBook,
-    insertBook: insertBook,
-    insertAuthor: insertAuthor,
     deleteBook: deleteBook
   };
 }

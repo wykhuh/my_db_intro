@@ -16,6 +16,7 @@ var nav = [
 // bookRouter, adminRouter are functions that we can pass nav into
 var bookRouter = require('./src/routes/bookRoutes')(nav);
 var adminRouter = require('./src/routes/adminRoutes')(nav);
+var authorRouter = require('./src/routes/authorRoutes')(nav);
 
 // app.use is middleware that will be done first
 
@@ -41,6 +42,7 @@ app.set('view engine', 'ejs');
 // use router so you can list all the http verbs for one route
 // all routes for bookRouter start with '/books'
 app.use('/books', bookRouter);
+app.use('/authors', authorRouter);
 
 // redirect from '/' to '/books'
 app.get('/', function (req, res) {
