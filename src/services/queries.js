@@ -19,6 +19,15 @@ function queries() {
     db.get(sql, bookId, cb);
   }
 
+  function editBook(bookId, title, authorId, firstname, lastname) {
+    var sql = 'UPDATE books set title = ? WHERE id = ?';
+    db.run(sql, title, bookId);
+    console.log(authorId)
+
+    sql = 'UPDATE authors set firstname = ?, lastname = ? WHERE id = ?';
+    db.run(sql, firstname, lastname, authorId);
+  }
+
   function selectAuthor(firstname, lastname, cb) {
     var sql = 'SELECT id FROM authors WHERE firstname=? AND lastname=?';
     db.get(sql, firstname, lastname, cb);
@@ -38,6 +47,7 @@ function queries() {
     selectAuthor: selectAuthor,
     selectBooks: selectBooks,
     selectBook: selectBook,
+    editBook: editBook,
     insertBook: insertBook,
     insertAuthor: insertAuthor
   };

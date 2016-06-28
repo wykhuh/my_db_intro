@@ -76,7 +76,7 @@ var router = function (nav) {
       }
     });
 
-
+  // show edit form
   bookRouter.route('/edit/:id')
     .get(function (req, res) {
       var id = req.params.id;
@@ -100,13 +100,22 @@ var router = function (nav) {
     });
 
   bookRouter.route('/:id')
-    // do something for all http routes
-    // pass in next callback that is executed when all callback is completed;
-    .all(function (req, res, next) {
-      var id = req.params.id;
-    })
+    // edit book
     .put(function (req, res) {
+      var title;
+      var firstname;
+      var lastname;
+      var bookId;
+      var authorId;
+      title = req.body.title;
+      firstname = req.body.firstname;
+      lastname = req.body.lastname;
+      bookId = req.body.id;
+      authorId = req.body.author_id;
 
+      queries.editBook(bookId, title, authorId, firstname, lastname);
+
+      res.redirect('/');
     });
 
   return bookRouter;

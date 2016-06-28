@@ -22,11 +22,13 @@ var adminRouter = require('./src/routes/adminRoutes')(nav);
 // the static 'public' directory.
 app.use(express.static('public'));
 
+// allow browser to use PUT and DELETE
+app.use(methodOverride('_method'));
+
 // parse request bodies
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-// allow browser to use PUT and DELETE
-app.use(methodOverride('_method'));
+
 
 // tell express where we are storing views
 app.set('views', './src/views');
