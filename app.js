@@ -1,6 +1,7 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
+var expressValidator = require('express-validator');
 
 // create an instance of express
 var app = express();
@@ -28,7 +29,8 @@ app.use(methodOverride('_method'));
 // parse request bodies
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-
+// validator must be immediately after bodyParser
+app.use(expressValidator([]));
 
 // tell express where we are storing views
 app.set('views', './src/views');

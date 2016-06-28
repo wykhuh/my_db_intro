@@ -18,40 +18,45 @@ var router = function (nav) {
           'books',
           // pass data to template
           {
+            flash: false,
             nav: nav,
             books: records,
             title: 'Favorite Books',
-            showMessage: false
+            errors: []
           }
         );
       });
     })
     .post(function (req, res) {
-      // get information from form
-      var data = {
-        title: req.body.title,
-        firstname: req.body.firstname,
-        lastname: req.body.lastname
-      };
+      var errors;
+      var data;
 
-      function renderMessage(message, type) {
+      //form validations
+      req.checkBody('title', 'Title is required').notEmpty();
+      req.checkBody('firstname', 'First Name is required').notEmpty();
+      req.checkBody('lastname', 'Last Name is required').notEmpty();
+      errors = req.validationErrors();
+
+      // if form data is not valid, show errors
+      if (errors) {
+        // show errors if form is incomplete
         res.render(
-          // use books template
           'books',
-          // pass data to template
           {
+            flash: { type: 'alert-danger', messages: errors },
             nav: nav,
             books: [],
-            title: 'Favorite Books',
-            showMessage: true,
-            message: message,
-            messageType: type
+            title: 'Favorite Books'
           }
         );
-      }
+      } else {
+        // get data from the form
+        data = {
+          title: req.body.title,
+          firstname: req.body.firstname,
+          lastname: req.body.lastname
+        };
 
-      // check if all form fields are filled out
-      if (data.title && data.firstname && data.lastname) {
         // look for author in database
         queries.selectAuthor(data, function (err, results) {
           if (err) { console.log('error: ', err); return; }
@@ -69,9 +74,6 @@ var router = function (nav) {
         });
         // redirect to home page
         res.redirect('/');
-      } else {
-        // show errors if form is incomplete
-        renderMessage('All fields must be filled out', 'danger');
       }
     });
 
@@ -102,16 +104,34 @@ var router = function (nav) {
   bookRouter.route('/:id')
     // edit book
     .put(function (req, res) {
-      var data = {
-        title: req.body.title,
-        firstname: req.body.firstname,
-        lastname: req.body.lastname,
-        bookId: req.body.id,
-        authorId: req.body.author_id
-      };
-      queries.editBook(data);
+      var errors;
+      var data;
 
-      res.redirect('/');
+      //form validations
+      req.checkBody('title', 'Title is required').notEmpty();
+      req.checkBody('firstname', 'First Name is required').notEmpty();
+      req.checkBody('lastname', 'Last Name is required').notEmpty();
+      errors = req.validationErrors();
+
+      // if form data is not valid, show errors
+      if (errors) {
+        // show errors if form is incomplete
+        res.redirect('/edit/' + params.body.id);
+      } else {
+        data = {
+          title: req.body.title,
+          firstname: req.body.firstname,
+          lastname: req.body.lastname,
+          bookId: req.body.id,
+          authorId: req.body.author_id
+        };
+        queries.editBook(data);
+
+        res.redirect('/');
+      }
+
+
+
     })
     // delete bookId
     .delete(function (req, res) {
