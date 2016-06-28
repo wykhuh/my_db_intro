@@ -11,41 +11,40 @@ function queries() {
     db.all(sql, cb);
   }
 
-  function selectBook(bookId, cb) {
+  function selectBook(data, cb) {
     var sql = 'SELECT * FROM authors ' +
               'JOIN books ON authors.id = books.author_id ' +
               'WHERE books.id =? ' +
               'ORDER By books.id DESC';
-    db.get(sql, bookId, cb);
+    db.get(sql, data.bookId, cb);
   }
 
-  function deleteBook(bookId) {
-    var sql = 'DELETE FROM books ' +
-              'WHERE books.id =? ';
-    db.run(sql, bookId);
+  function deleteBook(data) {
+    var sql = 'DELETE FROM books WHERE books.id =? ';
+    db.run(sql, data.bookId);
   }
 
-  function editBook(bookId, title, authorId, firstname, lastname) {
+  function editBook(data) {
     var sql = 'UPDATE books set title = ? WHERE id = ?';
-    db.run(sql, title, bookId);
+    db.run(sql, data.title, data.bookId);
 
     sql = 'UPDATE authors set firstname = ?, lastname = ? WHERE id = ?';
-    db.run(sql, firstname, lastname, authorId);
+    db.run(sql, data.firstname, data.lastname, data.authorId);
   }
 
-  function selectAuthor(firstname, lastname, cb) {
+  function selectAuthor(data, cb) {
     var sql = 'SELECT id FROM authors WHERE firstname=? AND lastname=?';
-    db.get(sql, firstname, lastname, cb);
+    db.get(sql, data.firstname, data.lastname, cb);
   }
 
-  function insertBook(title, authorId, cb) {
+  function insertBook(data, cb) {
     var sql = 'INSERT into books(title, author_id) VALUES(?, ?)';
-    db.run(sql, title, authorId, cb);
+    db.run(sql, data.title, data.authorId, cb);
   }
 
-  function insertAuthor(firstname, lastname, cb) {
+  function insertAuthor(data, cb) {
     var sql = 'INSERT into authors(firstname, lastname) VALUES(?, ?)';
-    db.run(sql, firstname, lastname, cb);
+    db.run(sql, data.firstname, data.lastname, cb);
   }
 
   return {

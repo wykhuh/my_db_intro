@@ -1,6 +1,6 @@
 var express = require('express');
 var bookRouter = express.Router();
-var queries = require('../services/queries.js')
+var queries = require('../services/queries.js');
 
 // export a function that returns a router
 
@@ -27,9 +27,12 @@ var router = function (nav) {
       });
     })
     .post(function (req, res) {
-      var title;
-      var firstname;
-      var lastname;
+      // get information from form
+      var data = {
+        title: req.body.title,
+        firstname: req.body.firstname,
+        lastname: req.body.lastname
+      };
 
       function renderMessage(message, type) {
         res.render(
@@ -47,24 +50,20 @@ var router = function (nav) {
         );
       }
 
-      // get information from form
-      title = req.body.title;
-      firstname = req.body.firstname;
-      lastname = req.body.lastname;
-
       // check if all form fields are filled out
-      if (title && firstname && lastname) {
+      if (data.title && data.firstname && data.lastname) {
         // look for author in database
-        queries.selectAuthor(firstname, lastname, function (err, res) {
+        queries.selectAuthor(data, function (err, results) {
           if (err) { console.log('error: ', err); return; }
           // if author exists, insert book
-          if (res) {
-            queries.insertBook(title, res.id);
+          if (results) {
+            queries.insertBook(data, res.id);
           // if author doesn't exist, insert book and author
           } else {
-            queries.insertAuthor(firstname, lastname, function (err) {
-              if (err) { console.log('error: ', err); return; }
-              queries.insertBook(title, this.lastID);
+            queries.insertAuthor(data, function (error) {
+              if (error) { console.log('error: ', error); return; }
+              data.authorId = this.lastID;
+              queries.insertBook(data);
             });
           }
         });
@@ -79,10 +78,11 @@ var router = function (nav) {
   // show edit form
   bookRouter.route('/edit/:id')
     .get(function (req, res) {
-      var id = req.params.id;
-
+      var data = {
+        id: req.body.id
+      };
       // select one book
-      queries.selectBook(id, function (err, record) {
+      queries.selectBook(data, function (err, record) {
         if (err) { console.log('error: ', err); return; }
 
         res.render(
@@ -102,25 +102,23 @@ var router = function (nav) {
   bookRouter.route('/:id')
     // edit book
     .put(function (req, res) {
-      var title;
-      var firstname;
-      var lastname;
-      var bookId;
-      var authorId;
-      title = req.body.title;
-      firstname = req.body.firstname;
-      lastname = req.body.lastname;
-      bookId = req.body.id;
-      authorId = req.body.author_id;
-
-      queries.editBook(bookId, title, authorId, firstname, lastname);
+      var data = {
+        title: req.body.title,
+        firstname: req.body.firstname,
+        lastname: req.body.lastname,
+        bookId: req.body.id,
+        authorId: req.body.author_id
+      };
+      queries.editBook(data);
 
       res.redirect('/');
     })
     // delete bookId
-    .delete(function(req, res){
-      var bookId = req.body.id;
-      queries.deleteBook(bookId);
+    .delete(function (req, res) {
+      var data = {
+        bookId: req.body.id
+      };
+      queries.deleteBook(data);
       res.redirect('/');
     });
 
