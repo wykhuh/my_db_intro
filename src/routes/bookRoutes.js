@@ -25,31 +25,7 @@ var router = function (nav) {
           }
         );
       });
-    });
-
-  bookRouter.route('/edit/:id')
-    .get(function (req, res) {
-      var id = req.params.id;
-
-      // select one book
-      queries.selectBook(id, function (err, record) {
-        if (err) { console.log('error: ', err); return; }
-
-        res.render(
-          // use books template
-          'edit-form',
-          // pass data to template
-          {
-            nav: nav,
-            book: record,
-            title: 'Edit Book',
-            showMessage: false
-          }
-        );
-      });
-    });
-
-  bookRouter.route('/add-book')
+    })
     .post(function (req, res) {
       var title;
       var firstname;
@@ -98,6 +74,29 @@ var router = function (nav) {
         // show errors if form is incomplete
         renderMessage('All fields must be filled out', 'danger');
       }
+    });
+
+
+  bookRouter.route('/edit/:id')
+    .get(function (req, res) {
+      var id = req.params.id;
+
+      // select one book
+      queries.selectBook(id, function (err, record) {
+        if (err) { console.log('error: ', err); return; }
+
+        res.render(
+          // use books template
+          'edit-form',
+          // pass data to template
+          {
+            nav: nav,
+            book: record,
+            title: 'Edit Book',
+            showMessage: false
+          }
+        );
+      });
     });
 
   bookRouter.route('/:id')

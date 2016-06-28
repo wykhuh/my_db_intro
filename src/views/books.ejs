@@ -16,7 +16,7 @@
       <% if(showMessage) { %>
       <div class="alert alert-<%= messageType %>"><%= message %></div>
       <% } %>
-      <form action="/add-book" method="post" class="col-md-4">
+      <form action="/books/" method="post" class="col-md-4">
         <div class="form-group">
           <label for="title">Title</label>
           <input id="title" type="text" name="title" class="form-control" placeholder="title">
