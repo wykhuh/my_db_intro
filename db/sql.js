@@ -13,15 +13,16 @@ db.serialize(function () {
   if (!exists) {
     db.run('CREATE TABLE books (' +
       'id INTEGER PRIMARY KEY AUTOINCREMENT, ' +
-      'title TEXT, ' +
+      'title TEXT  NOT NULL, ' +
       'author_id INTEGER, ' +
       ' FOREIGN KEY(author_id) REFERENCES authors(id)' +
     ')');
 
     db.run('CREATE TABLE authors (' +
       'id INTEGER PRIMARY KEY AUTOINCREMENT, ' +
-      'firstname TEXT, ' +
-      'lastname TEXT ' +
+      'firstname TEXT  NOT NULL,' +
+      'lastname TEXT  NOT NULL, ' +
+      'UNIQUE (firstname, lastname) ON CONFLICT REPLACE' +
     ')');
   }
 });
