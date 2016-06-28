@@ -13,9 +13,8 @@
   <div class="container">
     <h1>My Favorite Books</h1>
     <div class="row">
-      <% if(showMessage) { %>
-      <div class="alert alert-<%= messageType %>"><%= message %></div>
-      <% } %>
+      <%- include('messages') %>
+
       <form action="/books/" method="post" class="col-md-4">
         <div class="form-group">
           <label for="title">Title</label>

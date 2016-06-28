@@ -1,0 +1,8 @@
+<% if (flash) { %>
+<div class="alert <%= flash.type %>">
+  <ul>
+    <% flash.messages.forEach(function(message) { %>
+    <li><%= message.msg %></li>
+    <% }) %>
+  </ul>
+<% } %>
