@@ -49,8 +49,8 @@ function queries() {
   }
 
   function selectAuthor(data, cb) {
-    var sql = 'SELECT id FROM authors WHERE firstname=? AND lastname=?';
-    db.get(sql, data.firstname, data.lastname, cb);
+    var sql = 'SELECT * FROM authors WHERE id=?';
+    db.get(sql, data.authorId, cb);
   }
 
   function editAuthor(data) {

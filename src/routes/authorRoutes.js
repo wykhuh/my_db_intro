@@ -66,7 +66,7 @@ var router = function (nav) {
   authorRouter.route('/edit/:id')
     .get(function (req, res) {
       var data = {
-        id: req.body.id
+        authorId: req.params.id
       };
       // select one author
       queries.selectAuthor(data, function (err, record) {

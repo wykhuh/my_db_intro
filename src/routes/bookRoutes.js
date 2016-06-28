@@ -81,15 +81,16 @@ var router = function (nav) {
   bookRouter.route('/edit/:id')
     .get(function (req, res) {
       var data = {
-        id: req.body.id
+        bookId: req.params.id
       };
+
       // select one book
       queries.selectBook(data, function (err, record) {
         if (err) { console.log('error: ', err); return; }
 
         res.render(
           // use books template
-          'edit-form',
+          'edit-book-form',
           // pass data to template
           {
             nav: nav,
@@ -129,9 +130,6 @@ var router = function (nav) {
 
         res.redirect('/');
       }
-
-
-
     })
     // delete bookId
     .delete(function (req, res) {
