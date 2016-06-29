@@ -1,6 +1,8 @@
 var express = require('express');
 var authorRouter = express.Router();
-var queries = require('../services/queries.js');
+// var queries = require('../services/queries.js');
+var queries = require('../services/queries_knex.js');
+var db = require('../../db/db.js');
 
 // export a function that returns a router
 
@@ -9,7 +11,6 @@ var router = function () {
     .get(function (req, res) {
       // select all authors
       queries.selectAuthors(function (err, records) {
-        console.log(records)
         if (err) { console.log('error: ', err); return; }
 
         res.render(
@@ -68,6 +69,7 @@ var router = function () {
       // select one author
       queries.selectAuthor(data, function (err, record) {
         if (err) { console.log('error: ', err); return; }
+        console.log(record)
 
         res.render(
           // use authors template

@@ -1,6 +1,7 @@
 var express = require('express');
 var bookRouter = express.Router();
-var queries = require('../services/queries.js');
+// var queries = require('../services/queries.js');
+var queries = require('../services/queries_knex.js');
 
 // export a function that returns a router
 
@@ -10,6 +11,7 @@ var router = function () {
       // select all books
       queries.selectBooksAuthors(function (err, books) {
         if (err) { console.log('error: ', err); return; }
+        console.log(books)
 
         queries.selectAuthors(function (err2, authors) {
           if (err2) { console.log('error: ', err2); return; }

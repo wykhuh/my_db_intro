@@ -22,7 +22,6 @@ db.serialize(function () {
       'id INTEGER PRIMARY KEY AUTOINCREMENT, ' +
       'firstname TEXT  NOT NULL,' +
       'lastname TEXT  NOT NULL, ' +
-      'UNIQUE (firstname, lastname) ON CONFLICT REPLACE' +
     ')');
   }
 });
