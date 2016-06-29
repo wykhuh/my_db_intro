@@ -24,7 +24,7 @@
           <label for="author">Author</label>
           <select name="authorId" id="author">
             <% authors.forEach(function(author) { %>
-              <option value="<%= author.id %>"><%= author.firstname %> <%= author.lastname %></option>
+              <option value="<%= author.id %>" <%if (book.author_id == author.id){ %>selected <% }%> ><%= author.firstname %> <%= author.lastname %></option>
             <% }) %>
           </select>
         </div>
