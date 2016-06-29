@@ -23,10 +23,8 @@ function queries() {
   }
 
   function selectBook(data, cb) {
-    var sql = 'SELECT * FROM authors ' +
-              'JOIN books ON authors.id = books.author_id ' +
-              'WHERE books.id =? ' +
-              'ORDER By books.id DESC';
+    var sql = 'SELECT * FROM books ' +
+              'WHERE books.id =? ' ;
     db.get(sql, data.bookId, cb);
   }
 
