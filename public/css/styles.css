@@ -1,3 +1,6 @@
 .form-inline {
   display: inline;
 }
+body {
+  padding-top: 50px;
+}
