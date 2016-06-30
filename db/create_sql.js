@@ -21,7 +21,7 @@ db.serialize(function () {
     db.run('CREATE TABLE authors (' +
       'id INTEGER PRIMARY KEY AUTOINCREMENT, ' +
       'firstname TEXT  NOT NULL,' +
-      'lastname TEXT  NOT NULL, ' +
+      'lastname TEXT  NOT NULL ' +
     ')');
   }
 });
