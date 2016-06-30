@@ -1,67 +1,51 @@
 // connect to database
-var file = './db/library.db';
-var sqlite3 = require('sqlite3').verbose();
-var db = new sqlite3.Database(file);
+var knex = require('../../db/db.js');
+var db;
 
 function queries() {
   function selectBooksAuthors(cb) {
-    var sql = 'SELECT * FROM authors ' +
-              'JOIN books ON authors.id = books.author_id ' +
-              'ORDER By books.id DESC';
-    db.all(sql, cb);
+    cb(undefined, []);
   }
 
   function insertBook(data, cb) {
-    var sql = 'INSERT into books(title, author_id) VALUES(?, ?)';
-    db.run(sql, data.title, data.authorId, cb);
+    cb(undefined, '');
   }
 
   function selectBooks(cb) {
-    var sql = 'SELECT * FROM books ' +
-              'ORDER By books.id DESC';
-    db.all(sql, cb);
+    cb(undefined, {});
   }
 
   function selectBook(data, cb) {
-    var sql = 'SELECT * FROM books ' +
-              'WHERE books.id =? ' ;
-    db.get(sql, data.bookId, cb);
+    cb(undefined, {});
   }
 
-  function editBook(data) {
-    var sql = 'UPDATE books set title = ?, author_id = ? WHERE id = ?';
-    db.run(sql, data.title, data.authorId, data.bookId);
+  function editBook(data, cb) {
+    cb(undefined, '');
   }
 
-  function deleteBook(data) {
-    var sql = 'DELETE FROM books WHERE books.id =? ';
-    db.run(sql, data.bookId);
+  function deleteBook(data, cb) {
+    cb(undefined, '');
   }
 
   function insertAuthor(data, cb) {
-    var sql = 'INSERT into authors(firstname, lastname) VALUES(?, ?)';
-    db.run(sql, data.firstname, data.lastname, cb);
+    cb(undefined, '');
   }
 
   function selectAuthors(cb) {
-    var sql = 'SELECT * FROM authors ' +
-              'ORDER By authors.lastname ASC, authors.firstname ASC';
-    db.all(sql, cb);
+    cb(undefined, []);
+
   }
 
   function selectAuthor(data, cb) {
-    var sql = 'SELECT * FROM authors WHERE id=?';
-    db.get(sql, data.authorId, cb);
+    cb(undefined, {});
   }
 
-  function editAuthor(data) {
-    var sql = 'UPDATE authors set firstname = ?, lastname = ? WHERE id = ?';
-    db.run(sql, data.firstname, data.lastname, data.authorId);
+  function editAuthor(data, cb) {
+    cb(undefined, '');
   }
 
-  function deleteAuthor(data) {
-    var sql = 'DELETE FROM authors WHERE authors.id =? ';
-    db.run(sql, data.authorId);
+  function deleteAuthor(data, cb) {
+    cb(undefined, '');
   }
 
 

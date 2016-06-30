@@ -4,79 +4,48 @@ var db;
 
 function queries() {
   function selectBooksAuthors(cb) {
-    knex('authors')
-      .join('books', 'books.author_id', '=', 'authors.id')
-      .select('*')
-      .orderBy('books.id', 'desc')
-      .asCallback(cb);
+    cb(undefined, []);
   }
 
   function insertBook(data, cb) {
-    knex('books')
-      .insert({ title: data.title, author_id: data.authorId })
-      .asCallback(cb);
+    cb(undefined, '');
   }
 
   function selectBooks(cb) {
-    knex('books')
-      .select('*')
-      .asCallback(cb);
+    cb(undefined, {});
   }
 
   function selectBook(data, cb) {
-    knex('books')
-      .select('*')
-      .where('id', data.bookId)
-      .first()
-      .asCallback(cb);
+    cb(undefined, {});
   }
 
   function editBook(data, cb) {
-    knex('books')
-      .update({ title: data.title, author_id: data.authorId })
-      .where('id', data.bookId)
-      .asCallback(cb);
+    cb(undefined, '');
   }
 
   function deleteBook(data, cb) {
-    knex('books')
-      .del()
-      .where('id', data.bookId)
-      .asCallback(cb);
+    cb(undefined, '');
   }
 
   function insertAuthor(data, cb) {
-    knex('authors')
-      .insert({ firstname: data.firstname, lastname: data.lastname })
-      .asCallback(cb);
+    cb(undefined, '');
   }
 
   function selectAuthors(cb) {
-    knex('authors')
-      .select('*')
-      .asCallback(cb);
+    cb(undefined, []);
+
   }
 
   function selectAuthor(data, cb) {
-    knex('authors')
-      .select('*')
-      .where('id', data.authorId)
-      .first()
-      .asCallback(cb);
+    cb(undefined, {});
   }
 
   function editAuthor(data, cb) {
-    knex('authors')
-      .update({ firstname: data.firstname, lastname: data.lastname })
-      .where('id', data.authorId)
-      .asCallback(cb);
+    cb(undefined, '');
   }
 
   function deleteAuthor(data, cb) {
-    knex('authors')
-      .del()
-      .where('id', data.authorId)
-      .asCallback(cb);
+    cb(undefined, '');
   }
 
 

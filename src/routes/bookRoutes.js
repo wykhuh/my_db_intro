@@ -1,7 +1,7 @@
 var express = require('express');
 var bookRouter = express.Router();
-// var queries = require('../services/queries.js');
-var queries = require('../services/queries_knex.js');
+var queries = require('../services/queries.js');
+// var queries = require('../services/queries_knex.js');
 
 // export a function that returns a router
 
